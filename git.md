@@ -164,6 +164,11 @@ git push -u origin master
     To https://github.com/ogusu/sturdy-engine.git
     * [new branch] master -> master
     Branch master set up to track remote branch master from origin.
+
+# リポジトリを先に作っていて、さらにreadmeファイルを作ってコミットしている場合以下のエラーになる。
+fatal: refusing to merge unrelated histories
+その場合は以下で解消できる
+git merge --allow-unrelated-histories origin/main
 ~~~
 
 最後の修正を見てみる。最後のcommitはHEADと呼ばれ、以下のように表示したり、diffで対象にしたりできる。
