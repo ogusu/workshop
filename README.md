@@ -45,6 +45,10 @@ publicなドキュメント、手順、情報などをまとめたもの
 * https://www.docker.com/
 * [Dockerとは](https://www.pasonatech.co.jp/workstyle/column/detail.html?p=2675)
   * コンテナ化したアプリケーションを、他の環境に移行しても動作できることを目的にしたもの。ハイパーバイザ型と違いゲストOSを必要とせず、ホストOSとコンテナでカーネルを共有することで実現しているもの。
+  * Dockerの仕組みが知りたい人は[こちら](https://www.gwtcenter.com/how-docker-works)
+    > Dockerは、Linux上でのLinuxのプロセスの実行しかしない。Windowsではhyper-vでLinuxカーネルを動作させ、その上でLinuxコンテナを動作させる。
+
+
 * ポイント
   * Infrastructure as a Code | インフラをコード化してしまおう
   * Immutable Infrastructure | 不変のインフラ環境
@@ -69,3 +73,54 @@ publicなドキュメント、手順、情報などをまとめたもの
   * さらに、メリットは環境差異防止に止まらない。ハードウェア的なCPUやメモリという概念がなくコンテナ単位でスペックやコンテナの数自体も負荷によって自動スケールさせられる。
   * コンテナを包含するサーバーレスというワードも覚えておこう。例えば以下のようにコードをもうそのまま実行できるサービスがある。環境すらいらない。
     * [AWS Lambda（イベント発生時にコードを実行）](https://aws.amazon.com/jp/lambda/)
+
+### 2.3. Dockerのインストール
+
+Dockerのインストール。
+* 基本的に影響範囲はHyper-v上だが、VMWareなど他の仮装環境と同居できるかは社内ではおそらく未確認なので調べてからの方が良い。また、Windows10の高速スタートアップとの相性が悪いことがあった。心配ならWSL2にLinux入れるか、Macならストレスなく使える。
+* [公式サイト(https://www.docker.com/)のGet Startedから、Docker Desctopをダウンロードしてインストールする。
+* 公式サイトの[Windows に Docker Desktop をインストール](https://docs.docker.jp/docker-for-windows/install.html)を参考にインストールします。
+
+### 2.4. Dockerを動かしてみる。
+
+Webサーバー[nginx](https://hub.docker.com/_/nginx/)コンテナをサクッと入れてみよう。Dockerが起動していることを確認して以下のコマンドを実行する。
+
+~~~
+$ docker run -d -p 8080:80 --name webserver nginx
+~~~
+公開されているnginxコンテナ（debianベースにnginxと最低限のパッケージのみがインストールされたコンテナ）が起動する。http://localhost:8080/ でアクセスするとコンテナ内の80ポートで起動するnginxからレスポンスが返ってくる。
+
+以下のコマンドで、コンテナやダウンロードしたイメージの状態を確認できる。
+~~~
+$ docker container ls
+$ docker images
+~~~
+
+Linux自体も動かすことができる。最新のCentOS8を入れてみよう。
+~~~
+$ docker pull centos
+$ docker images
+  REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+  centos       latest    300e315adb2f   8 months ago   209MB
+~~~
+以下のコマンドで対話型シェルに接続できる（CentOSの中に入れる）
+~~~
+$ docker run -it centos /bin/bash
+~~~
+CentOSの最低限のパッケージがインストールされた状態が確認できる。通常のLinuxなので、mysqlやapacheをインストールすることもできるので色々試してみよう。抜けるときはexit。
+~~~
+$ cat /etc/redhat-release
+CentOS Linux release 8.3.2011
+~~~
+
+あとは適当に動かしてみよう。参考）[docker.md](https://github.com/ogusu/workshop/blob/main/git.md)
+
+### 2.5. Dockerを使いこなす
+
+コンテナをコマンドで毎回作成起動するのは大変。yaml形式の設定ファイルを一度作ってしまえば次回から起動が楽になる。
+* Dockerfileを書いてみよう。
+* docker-composeで複数コンテナを同時に設定と起動しよう。
+
+Microsoft公式の[Windows Nanoコンテナ](https://qiita.com/anikundesu/items/90a7706b434daed5e266)や[IISコンテナ](https://hub.docker.com/_/microsoft-windows-servercore-iis)もあるよ。例えばIISコンテナに起動時のシェル（PowerShell）とを組み合わせると環境構築の自動化も可能。
+
+
