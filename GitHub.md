@@ -189,7 +189,12 @@ git@github.com: Permission denied (publickey).
 fatal: Could not read from remote repository.
 ~~~
 
-
+リポジトリを先に作っていて、さらにreadmeファイルを作ってコミットしている場合以下のエラーになる。
+fatal: refusing to merge unrelated histories
+その場合は以下で解消できる
+~~~
+$ git merge --allow-unrelated-histories origin/main
+~~~
 
 まずはローカルでの編集をコミットし、プッシュする練習を繰り返してみましょう。また、新しいリポジトリを作成してプッシュしてみましょう。
 
