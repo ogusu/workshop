@@ -71,6 +71,7 @@ publicなドキュメント、手順、情報などをまとめたもの
     * [Kubernetes (k8s)](https://kubernetes.io/ja/docs/concepts/overview/what-is-kubernetes/)
 * さらにその先
   * さらに、メリットは環境差異防止に止まらない。ハードウェア的なCPUやメモリという概念がなくコンテナ単位でスペックやコンテナの数自体も負荷によって自動スケールさせられる。
+    * https://www.bit-drive.ne.jp/managed-cloud/column/column_42.html
   * コンテナを包含するサーバーレスというワードも覚えておこう。例えば以下のようにコードをもうそのまま実行できるサービスがある。環境すらいらない。
     * [AWS Lambda（イベント発生時にコードを実行）](https://aws.amazon.com/jp/lambda/)
 
